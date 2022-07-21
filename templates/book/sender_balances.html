@@ -1,0 +1,39 @@
+<!-- extension de la page index -->
+{% extends "book/order_generator.html" %}
+
+<!-- hmtl content of this page -->
+ 
+
+{% block content %}
+
+	<div class="centerBook">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th colspan="4">BALANCES</th>
+				</tr>
+			<tr>
+			<th scope="col">Sender</th>
+			<th scope="col">ETH</th>
+			<th scope="col">USDC</th>
+			<th scope="col">CRV</th>
+		  </tr>
+		</thead>
+		<tbody>
+
+			{% for row in query_balances.itertuples %}	
+
+		  <tr>
+			<td>{{ row.Index }}</td>
+			<td>{{ row.eth }}</td>
+			<td>{{ row.usdc }}</td>
+			<td>{{ row.crv }}</td>
+
+		</tr>
+
+		  {% endfor %}
+		</tbody>
+	  </table>
+	</div>
+
+{% endblock %}

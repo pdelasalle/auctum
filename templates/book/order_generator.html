@@ -1,0 +1,152 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Auctum - Decentralized Order Book</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+    <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400&display=swap" rel="stylesheet">
+  </head>
+
+<!-- Just an image -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	
+	<div class="collapse navbar-collapse" id="navbarNav">
+	  <ul class="navbar-nav">
+		<li class="nav-item">
+		  <a class="nav-link" href="order_generator">Order Generator</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="sender_balances">Balances</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="pools">Pools</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link disabled" href="ethusdc">ETH/USDC</a>
+		</li>
+	  </ul>
+	</div>
+  </nav>
+
+  {% block content %}
+
+	<form method="post" action="order_generator">
+		<div class="row">
+			<div class="centerBook">
+				<p></p>
+				<h4 class="header-title m-t-0">ORDER GENERATOR</h4>
+				<p class="text-muted font-14 m-b-25">Create & Submit your order<p>
+
+				{% csrf_token %}
+
+				<p>
+				<label>Address</label>
+				<select id="sender" name="sender" class="form-control select2" value={{sender}}>
+					<option value="" {% if address == '' %} selected {% endif %}></option>
+					<option value="0x_Pierre" {% if sender == '0x_Pierre' %} selected {% endif %}>0x_Pierre</option>
+					<option value="0x_Sarah" {% if sender == '0x_Sarah' %} selected {% endif %}>0x_Sarah</option>
+					<option value="0x_Lea" {% if sender == '0x_Lea' %} selected {% endif %}>0x_Lea</option>
+				</select>
+				</p>
+
+				<p>
+					<label>Pair</label>
+					<select id="pair" name="pair" class="form-control select2" value={{pair}}>
+						<option value="ETHUSDC" {% if pair == 'ETHUSDC' %} selected {% endif %}>ETH/USDC</option>
+						<option value="CRVUSDC" {% if pair == 'CRVUSDC' %} selected {% endif %}>CRV/USDC</option>
+						<option value="ETHCRV" {% if pair == 'ETHCRV' %} selected {% endif %}>ETH/CRV</option>
+					</select>
+					
+				</p>
+
+				<p>
+					<label>Side</label>
+					<select id="side" name="side" class="form-control select2" value={{side}}>
+						<option value="Buy" {% if side == 'Buy' %} selected {% endif %}>Buy</option>
+						<option value="Sell" {% if side == 'Sell' %} selected {% endif %}>Sell</option>
+					</select>
+					
+				</p>
+
+				<p>
+					<div class="form-group row">
+						<label class="col-2 col-form-label">Quantity</label>
+						<div id="qty_side" name="qty_side" class="col-md-10" value="{{qty_side}}">
+							<input class="form-control" type="float" name="qty_side" value="{{qty_side}}">
+						</div>
+					</div>
+				</p>
+						
+				<p>
+					<div class="form-group row">
+						<label class="col-2 col-form-label">Price</label>
+						<div id="price" name="price" class="col-md-10" value="{{price}}">
+							<input class="form-control" type="float" name="price" value="{{price}}">
+						</div>
+					</div>
+				</p>
+
+				<div class="button-list">
+					<a href="{% url 'book:order_generator' %}">
+						<button class="btn btn-primary" type="submit">Submit Order</button>
+					</a>			
+				</div>
+
+				<p></p>
+				<p>{{ orderSummary }}</p>		
+				<p>{{ orderExplanation }}</p>				
+					
+			</div>
+		</div>
+	</form>	
+
+	<div class="centerOrder">
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+			<th scope="col">TxID</th>
+			<th scope="col">Sender</th>
+			<th scope="col">Pair</th>
+			<th scope="col">Side</th>
+			<th scope="col">Quantity</th>
+			<th scope="col">Price</th>
+			<th scope="col">Against</th>
+			<th scope="col">TimeStamp</th>
+			<th scope="col">Status</th>
+		  </tr>
+		</thead>
+		<tbody>
+
+			{% for row in transactions.itertuples %}	
+
+		  <tr>
+			<th scope="row">{{ row.tx_id }}</th>
+			<td>{{ row.sender }}</td>
+			<td>{{ row.pair }}</td>
+			<td>{{ row.side }}</td>
+			<td>{{ row.qty_side }}</td>
+			<td>{{ row.price }}</td>
+			<td>{{ row.qty_other_side }}</td>
+			<td>{{ row.timestamp }}</td>
+			<td>{{ row.matched }}</td>
+		</tr>
+
+		  {% endfor %}
+		</tbody>
+	  </table>
+	</div>
+
+	{% endblock %}
+
+</html>

@@ -1,0 +1,21 @@
+.orderBook {
+    color: red;
+    font-family: 'Barlow', sans-serif;
+  }
+
+
+.centerBook {
+    font-family: 'Barlow', sans-serif;
+    border-top: 50px solid white;
+    border-left: 200px solid white;
+    border-right: 200px solid white;
+    border-bottom: 50px solid white;
+    text-align: center;
+}
+
+.centerOrder {
+    font-family: 'Barlow', sans-serif;
+    border-left: 50px solid white;
+    border-right: 50px solid white;
+    text-align: center;
+}

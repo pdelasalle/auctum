@@ -1,0 +1,106 @@
+<!-- extension de la page index -->
+{% extends "book/order_generator.html" %}
+
+<!-- hmtl content of this page -->
+ 
+
+{% block content %}
+
+<div class="centerBook">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th colspan="4">ETH/USDC</th>
+			</tr>
+		<tr>
+			<th colspan="2">BIDS</th>
+			<th colspan="2">OFFERS</th>
+			</tr>
+		<tr>
+		<tr>
+		<th scope="col">Qty</th>
+		<th scope="col">Price</th>
+		<th scope="col">Price</th>
+		<th scope="col">Qty</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		{% for row in book_ETHUSDC.itertuples %}	
+
+		<tr>
+		<td>{{ row.qty_bid }}</td>
+		<td>{{ row.price_bid }}</td>
+		<td>{{ row.price_ask }}</td>
+		<td>{{ row.qty_ask }}</td>
+
+	</tr>
+
+		{% endfor %}
+	</tbody>
+	</table>
+</div>
+
+<div class="centerBook">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th colspan="4">CRV/USDC</th>
+				</tr>
+			<tr>
+				<th colspan="2">BIDS</th>
+				<th colspan="2">OFFERS</th>
+				</tr>
+			<tr>
+			<tr>
+			<th scope="col">Qty</th>
+			<th scope="col">Price</th>
+			<th scope="col">Price</th>
+			<th scope="col">Qty</th>
+			</tr>
+		</thead>
+		<tbody>	
+			{% for row in book_CRVUSDC.itertuples %}		
+			<tr>
+			<td>{{ row.qty_bid }}</td>
+			<td>{{ row.price_bid }}</td>
+			<td>{{ row.price_ask }}</td>
+			<td>{{ row.qty_ask }}</td>	
+			</tr>	
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<div class="centerBook">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th colspan="4">ETH/CRV</th>
+				</tr>
+			<tr>
+				<th colspan="2">BIDS</th>
+				<th colspan="2">OFFERS</th>
+				</tr>
+			<tr>
+			<tr>
+			<th scope="col">Qty</th>
+			<th scope="col">Price</th>
+			<th scope="col">Price</th>
+			<th scope="col">Qty</th>
+			</tr>
+		</thead>
+		<tbody>	
+			{% for row in book_ETHCRV.itertuples %}		
+			<tr>
+			<td>{{ row.qty_bid }}</td>
+			<td>{{ row.price_bid }}</td>
+			<td>{{ row.price_ask }}</td>
+			<td>{{ row.qty_ask }}</td>	
+			</tr>	
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
