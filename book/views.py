@@ -171,6 +171,8 @@ def order_generator(request):
     transactions = pd.read_sql('SELECT * FROM transactions', sqlConn)
     transactions = transactions.sort_values('timestamp',ascending=False)
     
+    query_balances = updateBalances()
+    
     return render(request,'book/order_generator.html', {
             
             'sender':sender,
@@ -181,6 +183,7 @@ def order_generator(request):
             'orderSummary':orderSummary,
             'orderExplanation':orderExplanation,
             'transactions':transactions,
+            'query_balances':query_balances,
             
                                                     })
 
@@ -191,6 +194,15 @@ def ethusdc(request):
     return render(request,'book/ethusdc.html', {
             
             'book':book,
+            
+                                                    })
+
+def reset_balances(request):
+        
+    cleanSQL()
+
+    return render(request,'book/reset_balances.html', {
+            
             
                                                     })
 
@@ -208,7 +220,7 @@ def pools(request):
             
                                                     })
 
-def sender_balances(request):
+def updateBalances():
     
     query_balances = balances.objects.all()
     query_balances = read_frame(query_balances)
@@ -220,6 +232,12 @@ def sender_balances(request):
     
     for token in query_balances.columns:
         query_balances[token]['0x_Book'] = tx.qty_send[tx.token_send == token.upper()].sum()
+    
+    return query_balances
+
+def sender_balances(request):
+    
+    query_balances = updateBalances()
 
     return render(request,'book/sender_balances.html', {
             

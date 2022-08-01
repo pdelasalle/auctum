@@ -8,4 +8,5 @@ urlpatterns = [
     path('ethusdc', views.ethusdc, name='ethusdc'),
     path('pools', views.pools, name='pools'),
     path('sender_balances', views.sender_balances, name='sender_balances'),
+    path('reset_balances', views.reset_balances, name='reset_balances'),
 ]

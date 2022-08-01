@@ -33,13 +33,43 @@
 			<a class="nav-link" href="pools">Pools</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link disabled" href="ethusdc">ETH/USDC</a>
+			<a class="nav-link" href="reset_balances">Reset</a>
 		</li>
 	  </ul>
 	</div>
   </nav>
 
   {% block content %}
+
+  <div class="centerBook">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th colspan="4">BALANCES</th>
+				</tr>
+			<tr>
+			<th scope="col">Sender</th>
+			<th scope="col">ETH</th>
+			<th scope="col">USDC</th>
+			<th scope="col">CRV</th>
+		  </tr>
+		</thead>
+		<tbody>
+
+			{% for row in query_balances.itertuples %}	
+
+		  <tr>
+			<td>{{ row.Index }}</td>
+			<td>{{ row.eth }}</td>
+			<td>{{ row.usdc }}</td>
+			<td>{{ row.crv }}</td>
+
+		</tr>
+
+		  {% endfor %}
+		</tbody>
+	  </table>
+	</div>
 
 	<form method="post" action="order_generator">
 		<div class="row">
